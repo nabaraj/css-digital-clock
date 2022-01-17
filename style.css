@@ -1,0 +1,66 @@
+:root {
+  --second: 1s;
+  --minute: calc(var(--second) * 60);
+  --hour: calc(var(--minute) * 60);
+}
+.clock {
+  --setTimeHour: 16;
+  --setTimeMinute: 28;
+  --timeShiftHour: calc(var(--setTimeHour) * var(--hour));
+  --timeShiftMinute: calc(var(--setTimeMinute) * var(--minute));
+
+  width: 150px;
+  height: 50px;
+  background-color: var(--grey);
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+}
+.section > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.section > ul > li {
+  width: 50px;
+  height: 50px;
+  font-size: 32px;
+  text-align: center;
+  padding-top: 2px;
+}
+.section {
+  position: relative;
+  width: calc(100% / 3);
+  overflow: hidden;
+}
+.second > ul {
+  animation: tick steps(60) var(--minute) infinite;
+}
+.minute > ul {
+  animation: tick steps(60) var(--hour) infinite;
+  animation-delay: calc(var(--timeShiftMinute) * -1);
+}
+.hour > ul {
+  animation: tick steps(24) calc(24 * var(--hour)) infinite;
+  animation-delay: calc(var(--timeShiftHour) * -1);
+}
+.minute::after,
+.hour::after {
+  content: ":";
+  margin-left: 2px;
+  position: absolute;
+  top: 6px;
+  left: 44px;
+  font-size: 24px;
+}
+.minute::after {
+  animation: blink var(--second) infinite;
+}
+@keyframes blink {
+  from { content: ":"; }
+  to { content: ""; }
+}
+@keyframes tick {
+  from { transform: translateY(0); }
+  to { transform: translateY(-100%); }
+}
